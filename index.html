@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APO8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap">
+<style>
+  /* basic reset */
+  html{color-scheme:light dark}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<style>
+/* colours used across the whole page */
+:root{
+  --ground:#070A12;
+  --ground-2:#0B1120;
+  --card:#0E1626;
+  --card-2:#111B2E;
+  --ink:#EEF1F7;
+  --ink-2:#A8B3C7;
+  --muted:#6C788F;
+  --line:#1B2437;
+  --line-2:#26324A;
+
+  --violet:#8B7BFF;
+  --teal:#5FE0D0;
+  --violet-soft:rgba(139,123,255,.14);
+
+
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --mega:"Syne","Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --text:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --gut:clamp(14px,2.1vw,36px);
+  --maxw:1840px;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);font-family:var(--text);
+  font-size:clamp(1rem,.95rem + .18vw,1.0625rem);line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--violet);color:#070A12}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:4px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
+
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+h2{font-family:var(--display);font-variation-settings:"wdth" 92,"opsz" 48;font-weight:600;color:var(--ink);
+  font-size:clamp(1.9rem,1.2rem + 2.8vw,3.4rem);line-height:1.02;letter-spacing:-.028em;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-variation-settings:"wdth" 95,"opsz" 24;font-weight:600;color:var(--ink);
+  font-size:1.0625rem;line-height:1.25;letter-spacing:-.012em;margin:0}
+
+/* hero: the full-screen landing with the bubbles */
+.hero-dark{
+  position:relative;min-height:100svh;
+  display:grid;grid-template-rows:1fr auto;
+  isolation:isolate;background:#05060C;color:#F4F5F8;overflow:hidden;
+}
+#bubbles{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+.hero-fb{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-fb::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(120% 70% at 50% 118%, rgba(40,190,190,.34), transparent 62%),
+    radial-gradient(70% 50% at 86% 84%, rgba(112,60,220,.30), transparent 66%),
+    linear-gradient(180deg,#05060C 0%,#070A16 55%,#0A1420 100%);
+}
+.fb-b{position:absolute;border-radius:50%;
+  background:conic-gradient(from 210deg,#FF8AC4,#FFD98A,#9BFFD1,#8AD8FF,#B58AFF,#FF8AC4);
+  filter:blur(1px);opacity:.26;mix-blend-mode:screen}
+
+
+/* the apo8 title, blended so it inverts over the bubbles */
+.hero-mid{
+  position:relative;z-index:3;display:grid;place-items:center;
+  padding-block:clamp(2rem,7vw,4.5rem);text-align:center;
+  mix-blend-mode:difference;pointer-events:none;
+}
+.bigname{font-family:var(--mega);font-weight:800;text-transform:uppercase;color:#F7F4EE;
+  font-size:clamp(4rem,19vw,15rem);line-height:.86;letter-spacing:.005em;margin:0}
+.hero-sub{font-family:var(--mono);font-size:clamp(.68rem,1.05vw,.9rem);
+  letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;color:#8E97A8;
+  margin:clamp(.9rem,1.8vw,1.5rem) 0 0}
+@media (max-width:430px){
+  .hero-sub{font-size:.6rem;letter-spacing:.16em;text-indent:.16em}
+}
+
+.hero-foot{position:relative;z-index:4;display:grid;place-items:center;gap:.55rem;padding-bottom:1.6rem}
+.hero-foot i{display:block;width:1px;height:34px;background:linear-gradient(rgba(244,245,248,.12),#F4F5F8)}
+.hero-foot span{font-family:var(--mono);font-size:.6875rem;letter-spacing:.28em;color:rgba(244,245,248,.55);text-transform:uppercase}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* bento: the grid of tiles below the hero */
+.bento{
+  --gap:clamp(10px,1.1vw,18px);
+  display:grid;gap:var(--gap);grid-template-columns:1fr;
+  max-width:var(--maxw);margin-inline:auto;
+  padding:var(--gut) var(--gut) calc(var(--gut) * 1.5);
+}
+@media (min-width:700px) and (max-width:1099px){
+  .bento{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "video    video"
+      "about    about"
+      "apps     location"
+      "contact  awards";
+  }
+}
+@media (min-width:1100px){
+  .bento{
+    grid-template-columns:1fr 2.2fr 1fr;
+    align-items:stretch;
+    grid-template-areas:
+      "video   video  apps"
+      "video   video  location"
+      "contact about  awards";
+  }
+}
+@media (min-width:700px){
+  .a-video{grid-area:video}  .a-apps{grid-area:apps}        .a-about{grid-area:about}
+  .a-contact{grid-area:contact}  .a-location{grid-area:location}
+  .a-awards{grid-area:awards}
+}
+.tile{position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line);
+  background:var(--card);padding:clamp(1rem,1.9vw,1.45rem);min-width:0}
+.tile-label{font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+
+/* round photo. set the picture with style="--img:url('media/profile.jpg')" */
+.photo{position:relative;overflow:hidden;border-radius:50%;flex:none;
+  background-image:var(--img,none);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  background-color:#0A2036;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.photo--pin{width:56px;height:56px;border:2px solid #F4F3FF}
+
+
+.socials{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;align-self:end}
+.socials a{display:grid;grid-auto-rows:auto;justify-items:center;align-content:center;gap:.5rem;
+  padding:.95rem .4rem;border:1px solid var(--line-2);border-radius:14px;
+  color:var(--ink-2);background:transparent;
+  transition:border-color .2s,color .2s,background .2s}
+.socials a svg{width:20px;height:20px;display:block}
+.socials a b{font-family:var(--mono);font-weight:400;font-size:var(--t-meta);
+  letter-spacing:.1em;text-transform:uppercase}
+.socials a:hover{border-color:#4A5875;color:var(--c-head);background:rgba(255,255,255,.04)}
+
+/* the video tile */
+/* gives spare height to the video, not the bar under it */
+.stage{padding:0;display:grid;grid-template-rows:1fr auto;background:#05070D}
+.stage-slot{min-height:0;display:grid;place-items:center;overflow:hidden}
+.stage-frame{position:relative;aspect-ratio:16/9;width:100%;height:auto;
+  max-width:100%;max-height:100%;background:#000;overflow:hidden}
+.stage-frame video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
+.stage-empty{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:.5rem;
+  text-align:center;padding:1rem;background:#07090F}
+.stage-empty b{font-family:var(--display);font-variation-settings:"wdth" 92;font-weight:700;
+  font-size:1rem;color:var(--ink-2)}
+.stage-empty span{font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;color:var(--muted)}
+.stage-bar{display:flex;align-items:center;gap:.6rem 1rem;flex-wrap:wrap;
+  padding:.75rem clamp(.9rem,1.6vw,1.25rem);border-top:1px solid var(--line)}
+.stage-bar .tile-label{margin:0}
+.stage-clips{display:flex;flex-wrap:wrap;gap:.4rem;margin-left:auto}
+/* hides the clip chooser when there is only one clip */
+.stage-clips:empty{display:none}
+.stage-clips button{font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;cursor:pointer;
+  border:1px solid var(--line-2);border-radius:999px;padding:.36rem .8rem;color:var(--ink-2);
+  background:transparent;transition:border-color .25s,color .25s,background .25s}
+.stage-clips button:hover{border-color:var(--violet);color:var(--violet);background:var(--violet-soft)}
+.stage-clips button[aria-current="true"]{border-color:var(--violet);color:var(--ink);
+  background:var(--violet-soft)}
+
+
+
+/* contact tile */
+.contact{display:grid;align-content:space-between;gap:.9rem}
+
+
+
+/* awards tile */
+.award{display:grid;align-content:start;gap:.85rem}
+.award-list{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}
+.award-list li{display:grid;gap:.2rem;padding-top:.85rem;border-top:1px solid var(--line)}
+.award-list li:first-child{padding-top:0;border-top:0}
+.award h3{font-family:var(--display);font-variation-settings:"wdth" 92,"opsz" 28;font-weight:700;
+  letter-spacing:-.015em;color:var(--ink);margin:0}
+.award .by{margin:0;font-family:var(--mono);text-transform:uppercase}
+
+
+
+/* about tile */
+.about{display:grid;align-content:center;gap:.7rem;padding:clamp(1.15rem,1.6vw,1.5rem)}
+.about h2{font-size:clamp(1.6rem,1rem + 1.9vw,2.5rem)}
+/* the label is a <p> too, so body rules have to skip it */
+.about p:not(.tile-label){margin:0;line-height:1.55}
+
+/* the email and buttons inside the contact tile */
+.mailto{font-family:var(--display);font-variation-settings:"wdth" 84,"opsz" 72;font-weight:700;
+  font-size:clamp(1.05rem,1.45vw,1.5rem);line-height:1.15;letter-spacing:-.02em;
+  justify-self:start;overflow-wrap:break-word;
+  text-decoration:underline;text-decoration-color:currentColor;
+  text-underline-offset:.22em;text-decoration-thickness:1px}
+.mailto:hover{text-decoration-thickness:2px}
+
+/* map tile */
+.map{padding:0;display:grid;place-items:center;background:#05070C;min-height:clamp(140px,13vw,190px)}
+/* darkens google's light map to match the page */
+.map-embed{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+  filter:invert(.92) hue-rotate(188deg) saturate(.62) brightness(.92) contrast(1.05)}
+/* fade at the bottom so the pin and label stay readable */
+.map::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg, rgba(5,7,12,.92) 0%, rgba(5,7,12,.22) 38%, transparent 62%)}
+.map .photo{position:relative;z-index:2}
+.map span{position:absolute;bottom:.65rem;font-family:var(--display);font-variation-settings:"wdth" 92;
+  font-weight:600;font-size:clamp(.98rem,1.1vw,1.18rem);z-index:2}
+
+/* apps tile */
+.tools{display:grid;grid-template-rows:auto 1fr;gap:1rem}
+.tools-grid{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:1.1rem .55rem}
+.tools-grid .tool{flex:0 0 calc(25% - .45rem)}
+.tool{display:grid;gap:.4rem;justify-items:center;text-align:center}
+.tool em{font-family:var(--mono);font-style:normal;font-size:.625rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);line-height:1.2}
+.tm{position:relative;width:100%;aspect-ratio:1;display:grid;place-items:center;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.tm img{width:100%;height:100%;object-fit:contain;display:block;transform:scale(1.14);
+  -webkit-user-drag:none;user-select:none}
+.tool:hover .tm{transform:translateY(-3px)}
+/* flips the black github mark to white */
+.tm.lift img{filter:invert(1)}
+
+footer.foot{padding-block:1.4rem 2.4rem;border-top:1px solid var(--line);background:var(--ground)}
+.foot-line{margin:0;font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;color:#6C788F}
+
+.r-ready .r{opacity:.25;translate:0 14px;transition:opacity .8s cubic-bezier(.2,.7,.2,1),translate .8s cubic-bezier(.2,.7,.2,1)}
+.r-ready .r.in{opacity:1;translate:0 0}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* desktop layout: the tiles fit one screen, hero stays full height */
+@media (min-width:1100px){
+  /* only the tiles are sized to the screen, the hero is left alone */
+  /* top two rows are a fixed share of the screen, so shrinking the
+     bottom row leaves empty space instead of growing the video */
+  .bento{
+    padding-block:var(--gut);
+    grid-template-rows:minmax(0,27svh) minmax(0,27svh) auto;
+  }
+  .bento > .tile{min-height:0}
+
+  /* sizes the video off whichever side is tighter, keeping it 16:9 */
+  .stage-slot{container-type:size}
+  .stage-frame{width:min(100cqw, calc(100cqh * 16 / 9));height:auto}
+
+
+  .about h2{font-size:clamp(1.2rem,1.5vw,1.75rem)}
+  .about p{font-size:.875rem;line-height:1.55}
+  /* app icons sized off their column width and capped */
+  .tools{padding:.85rem;gap:.5rem;grid-template-rows:auto minmax(0,1fr)}
+  .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem .35rem;
+    align-content:center;min-height:0}
+  .tools-grid .tool{min-width:0;gap:.25rem}
+  .tm{width:100%;height:auto;aspect-ratio:1;max-width:min(88px, 9vh);justify-self:center}
+  .tm img{transform:none}                    /* stops icons spilling into the next column */
+  .tool em{font-size:.625rem;letter-spacing:.08em;overflow-wrap:anywhere}
+  /* keeps the contact buttons on one line */
+  .about{gap:.75rem}
+
+  /* shorter screens: tighten spacing instead of squashing the rows */
+  @media (max-height:900px){
+    .bento{--gap:10px;padding-block:12px}
+    /* the about tile shrinks too so the video does not have to */
+    .about{gap:.5rem;padding:1rem}
+    .about h2{font-size:clamp(1.02rem,1.2vw,1.3rem)}
+    .about p:not(.tile-label){font-size:.8rem;line-height:1.5}
+  }
+
+  /* 720p laptops: tighter again */
+  @media (max-height:760px){
+    .bento{--gap:8px;padding-block:10px}
+    .tools{padding:.7rem}
+    .about{gap:.45rem;padding:.9rem}
+    .about h2{font-size:1rem}
+    .about p:not(.tile-label){font-size:.76rem;line-height:1.45}
+  }
+}
+
+
+/* tile colours: every tile is black with the same outline */
+.bento{
+  background:#05070C;
+  /* text sizes. every size in this section comes from one of these */
+  --t-label:.6875rem;                      /* tile labels */
+  --t-meta:.625rem;                        /* small secondary text */
+  --t-body:.875rem;                        /* body text */
+  --t-title:clamp(1rem,1.05vw,1.15rem);    /* tile headings */
+  --t-head:clamp(1.25rem,1.6vw,1.8rem);    /* the about heading */
+
+  /* text colours. every bit of text uses one of these three */
+  --c-head:#F4F3FF;                        /* headings and the email */
+  --c-body:#A8B3C7;                        /* body text */
+  --c-meta:#6C788F;                        /* labels and captions */
+}
+
+/* headings */
+.bento .about h2,
+.bento .award h3,
+.bento .map span,
+.bento .mailto{color:var(--c-head)}
+/* body text */
+.bento .about p:not(.tile-label),
+.bento .socials a{color:var(--c-body)}
+/* labels and captions */
+.bento .tile-label,
+.bento .tool em{color:var(--c-meta)}
+.bento .award .by{color:var(--c-meta)}
+.bento .tile-label{font-size:var(--t-label);letter-spacing:.14em}
+.bento .about h2{font-size:var(--t-head)}
+.bento .about p:not(.tile-label){font-size:var(--t-body);line-height:1.6}
+.bento .award h3,
+.bento .map span{font-size:var(--t-title)}
+.bento .award .by,
+.bento .tool em{font-size:var(--t-meta);letter-spacing:.1em}
+.bento .stage-bar .tile-label{font-size:var(--t-label)}
+.bento .tile{background:#000;border:1px solid rgba(255,255,255,.10)}
+.bento .stage,
+.bento .contact,
+.bento .about,
+.bento .tools,
+.bento .award{background:#000}
+.bento 
+/* softens colour changes on these tiles */
+.bento .tile,
+.bento .map{transition:background-color .6s linear,border-color .6s linear}
+@media (prefers-reduced-motion:reduce){
+  .bento .tile,.bento .map{transition:none}
+}
+
+</style>
+
+<section class="hero-dark" id="top">
+  <div class="hero-fb" aria-hidden="true">
+    <span class="fb-b" style="width:26vw;height:26vw;left:8%;top:22%"></span>
+    <span class="fb-b" style="width:14vw;height:14vw;left:62%;top:12%"></span>
+    <span class="fb-b" style="width:19vw;height:19vw;left:76%;top:58%"></span>
+  </div>
+  <canvas id="bubbles" aria-hidden="true"></canvas>
+
+
+  <div class="wrap hero-mid">
+    <div>
+      <h1 class="bigname">APO8</h1>
+      <p class="hero-sub">Designer · Developer · 3D</p>
+    </div>
+  </div>
+
+  <a class="hero-foot" href="#about"><i></i><span>Scroll</span></a>
+</section>
+
+<main class="bento" id="about">
+
+    <div class="tile stage a-video r">
+      <div class="stage-slot">
+        <div class="stage-frame">
+          <video id="reel" playsinline preload="auto" autoplay muted loop controls></video>
+        </div>
+      </div>
+      <div class="stage-bar">
+        <p class="tile-label">Selected work</p>
+        <div class="stage-clips" id="reel-clips"></div>
+      </div>
+    </div>
+
+        <div class="tile tools a-apps r">
+      <p class="tile-label">Tools I use</p>
+      <div class="tools-grid">
+        <span class="tool"><span class="tm"><img src="app-icons/5.png" alt="Xcode" width="512" height="512" loading="lazy" decoding="async"></span><em>Xcode</em></span>
+        <span class="tool"><span class="tm"><img src="app-icons/2.png" alt="VS Code" width="512" height="512" loading="lazy" decoding="async"></span><em>VS Code</em></span>
+        <span class="tool"><span class="tm"><img src="app-icons/3.png" alt="Figma" width="512" height="512" loading="lazy" decoding="async"></span><em>Figma</em></span>
+        <span class="tool"><span class="tm"><img src="app-icons/4.png" alt="Photoshop" width="512" height="512" loading="lazy" decoding="async"></span><em>Photoshop</em></span>
+        <span class="tool"><span class="tm"><img src="app-icons/1.png" alt="Premiere" width="512" height="512" loading="lazy" decoding="async"></span><em>Premiere</em></span>
+        <span class="tool"><span class="tm"><img src="app-icons/7.png" alt="Canva" width="512" height="512" loading="lazy" decoding="async"></span><em>Canva</em></span>
+      </div>
+    </div>
+
+        <section class="tile about a-about r">
+      <p class="tile-label">About</p>
+      <h2>The same question I had as a kid, pointed at something physical.</h2>
+      <p>I have always been fascinated by how much can be created from nothing but a computer. We are living in a decade where digital creativity has made it possible to build things that once seemed impossible, from films and software to entire videogame worlds.</p>
+      <p>That fascination has led me to create several projects of my own, exploring what can be built with the tools available to me. Two of my favourites are featured above.</p>
+      <p>Now, I aspire to become a robotics engineer, taking that same ability to create digitally and bringing it into the physical world. Hopefully, I can be part of a future where technology continues to make real progress for everyone.</p>
+    </section>
+
+    <section class="tile contact a-contact r" id="contact">
+      <p class="tile-label">Contact</p>
+      <a class="mailto" href="mailto:fake_email@gmail.com">fake_email@gmail.com</a>
+      <div class="socials">
+        <a class="s-li" href="https://www.linkedin.com/in/adrian-p-462592325/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2zM8.2 18.9H5.3V9.7h2.9v9.2zM6.7 8.4a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4zm12.2 10.5h-2.9v-4.5c0-1.1 0-2.5-1.5-2.5s-1.8 1.2-1.8 2.4v4.6h-2.9V9.7h2.8v1.3h.1a3.1 3.1 0 0 1 2.8-1.5c3 0 3.5 1.9 3.5 4.5v4.9z"/></svg><b>LinkedIn</b></a>
+        <a class="s-gh" href="https://github.com/AP-O8" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.3c0 4.5 2.9 8.4 6.8 9.7.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2.1 1-2.8-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.2 9.2 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.7 1 2.8 0 3.9-2.4 4.7-4.6 5 .4.3.7 1 .7 2v3c0 .3.2.6.7.5A10.3 10.3 0 0 0 22 12.3C22 6.6 17.5 2 12 2z"/></svg><b>GitHub</b></a>
+        <a class="s-ml" href="mailto:fake_email@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.4 6.8 8.6 6 8.6-6"/></svg><b>Email</b></a>
+      </div>
+    </section>
+
+    <div class="tile map a-location r">
+      <iframe class="map-embed" title="Map of the Sydney CBD" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=Sydney%20CBD%2C%20NSW%2C%20Australia&amp;z=14&amp;output=embed"></iframe>
+      <span class="photo photo--pin" style="--img:url('media/profile.jpg')"></span>
+      <span>Sydney</span>
+    </div>
+
+    <div class="tile award a-awards r">
+      <p class="tile-label">Awards</p>
+      <ul class="award-list">
+        <li>
+          <h3>Swift Student Challenge Winner</h3>
+          <p class="by">Apple</p>
+        </li>
+        <li>
+          <h3>Future Innovators Award</h3>
+          <p class="by">Australian Defence Force</p>
+        </li>
+      </ul>
+    </div>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-line">Personal website, catalysed by Stardance Challenge</p>
+  </div>
+</footer>
+
+<script id="vsrc" type="x-shader/x-vertex">
+attribute vec2 p;
+void main(){ gl_Position = vec4(p, 0.0, 1.0); }
+</script>
+
+<script id="fsrc" type="x-shader/x-fragment">
+precision highp float;
+uniform vec2 uRes;
+uniform float uTime;
+uniform vec2 uMouse;
+
+const int N = 16;
+
+float h11(float n){ return fract(sin(n * 127.1) * 43758.5453123); }
+vec2  h21(float n){ return fract(sin(vec2(n * 127.1, n * 311.7)) * 43758.5453123); }
+
+float vnoise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  float a = h11(dot(i,                vec2(1.0, 57.0)));
+  float b = h11(dot(i + vec2(1.0,0.0), vec2(1.0, 57.0)));
+  float c = h11(dot(i + vec2(0.0,1.0), vec2(1.0, 57.0)));
+  float d = h11(dot(i + vec2(1.0,1.0), vec2(1.0, 57.0)));
+  return mix(mix(a,b,u.x), mix(c,d,u.x), u.y);
+}
+/* noise used to marble the bubble film */
+float fbm(vec2 p){ return 0.66 * vnoise(p) + 0.34 * vnoise(p * 2.17 + 11.3); }
+
+vec3 sky(vec2 uv){
+  float t = clamp(uv.y * 0.5 + 0.5, 0.0, 1.0);
+  vec3 c = mix(vec3(0.020,0.038,0.070), vec3(0.009,0.011,0.026), t);
+  c += vec3(0.09,0.36,0.40) * exp(-pow((uv.y + 1.05) * 1.20, 2.0) * 2.8) * 0.70;
+  c += vec3(0.24,0.12,0.44) * exp(-length(uv - vec2( 0.85,-0.60)) * 1.8) * 0.45;
+  c += vec3(0.06,0.20,0.34) * exp(-length(uv - vec2(-0.95,-0.35)) * 2.0) * 0.35;
+  return c;
+}
+
+void main(){
+  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y * 2.0;
+  vec3 col = sky(uv);
+
+  vec3 L1 = normalize(vec3(-0.45, 0.68, 0.58));
+  vec3 L2 = normalize(vec3( 0.62,-0.28, 0.73));
+
+  /* draws back to front so nearer bubbles sit on top */
+  for(int i = 0; i < N; i++){
+    float fi = float(i);
+    float q  = (fi + 0.5) / float(N);
+    vec2  hs = h21(fi * 3.77 + 1.3);
+    float s1 = hs.x, s2 = hs.y;
+    float s3 = h11(fi * 7.31 + 4.9);
+
+    float rad = mix(0.030, 0.31, pow(q, 1.45)) * (0.78 + 0.44 * s3);
+    float spd = 0.009 + rad * 0.085;
+    float y = mod(s2 * 3.4 + uTime * spd, 3.4) - 1.7;
+    float x = (s1 * 2.0 - 1.0) * 1.72 + sin(uTime * 0.17 + s2 * 6.2831) * rad * 0.55;
+    vec2  c = vec2(x, y) + uMouse * (0.015 + rad * 0.45);
+
+    vec2 d = uv - c;
+    float ang = atan(d.y, d.x);
+    /* wobbles the bubble slightly out of round */
+    float wob = 1.0 + 0.020 * sin(3.0 * ang + uTime * 0.85 + s1 * 6.2831)
+                    + 0.013 * sin(2.0 * ang - uTime * 0.55 + s2 * 6.2831);
+    float rr = length(d) / (rad * wob);
+
+    if(rr < 1.0){
+      float z = sqrt(max(0.0, 1.0 - rr * rr));
+      vec3  n = vec3(d / (rad * wob), z);
+      float ndv  = clamp(n.z, 0.0, 1.0);
+      float sinT = sqrt(max(0.0, 1.0 - ndv * ndv));
+      float cosR = sqrt(max(0.0, 1.0 - (sinT * sinT) / 1.7689));
+
+      /* the film is see-through face-on and bright at the rim */
+      float F  = 0.02 + 0.98 * pow(1.0 - ndv, 5.0);
+      float Fs = 0.02 + 0.98 * pow(1.0 - ndv, 2.6);
+
+      /* the film is thin at the top and thick at the bottom */
+      float low   = 0.5 - 0.5 * n.y;
+      float swirl = fbm(n.xy * 2.6 + vec2(uTime * 0.055, -uTime * 0.038) + s1 * 19.0);
+      float t_nm  = (80.0 + 600.0 * s2) * pow(low, 1.40) + 250.0 * swirl * low + 10.0;
+
+      /* works out the rainbow colours */
+      vec3  lam   = vec3(660.0, 550.0, 460.0);
+      vec3  delta = 6.2831853 * (2.0 * 1.33 * t_nm * cosR) / lam + 3.1415926;
+      vec3  I     = 0.5 + 0.5 * cos(delta);
+      float thin  = smoothstep(14.0, 95.0, t_nm);   /* the film goes black at the very top */
+      float coh   = exp(-t_nm / 2100.0);            /* colours fade out where the film is thick */
+      vec3  film  = mix(vec3(0.0), mix(vec3(0.52), I, coh), thin);
+
+      /* what shows through the bubble */
+      vec3 trans = mix(col, sky(uv + n.xy * rad * (0.28 + 0.85 * (1.0 - ndv))), 0.55);
+
+      float nl1 = max(dot(L1, n), 0.0);
+      float nl2 = max(dot(L2, n), 0.0);
+      vec3 spec = vec3(1.0) * (pow(nl1, 420.0) * 1.7 + pow(nl1, 24.0) * 0.085)
+                + vec3(0.74,0.88,1.0) * pow(nl2, 110.0) * 0.42;
+
+      float rimband = smoothstep(0.88, 1.0, rr) * (1.0 - smoothstep(0.988, 1.0, rr));
+
+      vec3 refl = film * (0.30 + 1.30 * Fs) + spec + vec3(0.8,0.9,1.0) * rimband * 0.16;
+      float a = clamp(F * 1.30 + rimband * 0.50 + 0.018, 0.0, 1.0);
+      a *= 1.0 - smoothstep(0.984, 1.0, rr);
+
+      col = mix(col, trans * (1.0 - F * 0.55) + refl, a);
+    } else if(rr < 1.45){
+      /* the faint glow just outside the bubble */
+      col += vec3(0.42,0.62,0.86) * exp(-(rr - 1.0) * 11.0) * 0.085;
+    }
+  }
+
+  col *= 1.0 - 0.22 * pow(length(uv * vec2(0.52, 0.72)), 2.2);
+  col = 1.0 - exp(-col * 1.18);
+  col += (h11(gl_FragCoord.x * 0.07 + gl_FragCoord.y * 1.3) - 0.5) * 0.010;
+  gl_FragColor = vec4(max(col, 0.0), 1.0);
+}
+</script>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+
+  /* draws the bubbles in the hero */
+  (function bubbles(){
+    var cv = document.getElementById('bubbles');
+    var gl = null;
+    try{ gl = cv.getContext('webgl',{antialias:false,alpha:false,powerPreference:'high-performance'})
+              || cv.getContext('experimental-webgl'); }catch(e){}
+    if(!gl){ cv.style.display='none'; return; }
+    function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+      return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null;}
+    var vs = sh(gl.VERTEX_SHADER, document.getElementById('vsrc').textContent);
+    var fs = sh(gl.FRAGMENT_SHADER, document.getElementById('fsrc').textContent);
+    if(!vs||!fs){cv.style.display='none';return;}
+    var pr = gl.createProgram();
+    gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);
+    if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){cv.style.display='none';return;}
+    gl.useProgram(pr);
+    var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+    var loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    var uRes=gl.getUniformLocation(pr,'uRes'),uTime=gl.getUniformLocation(pr,'uTime'),uMouse=gl.getUniformLocation(pr,'uMouse');
+    var mx=0,my=0,tx=0,ty=0;
+    function resize(){
+      var dpr=Math.min(window.devicePixelRatio||1,1.4);
+      var w=Math.round(cv.clientWidth*dpr),h=Math.round(cv.clientHeight*dpr);
+      if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}
+      gl.viewport(0,0,cv.width,cv.height);gl.uniform2f(uRes,cv.width,cv.height);
+    }
+    window.addEventListener('resize',resize);
+    window.addEventListener('pointermove',function(e){
+      tx=(e.clientX/window.innerWidth)*2-1; ty=-((e.clientY/window.innerHeight)*2-1);
+    },{passive:true});
+    var visible=true;
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){visible=es[0].isIntersecting;},{threshold:0})
+        .observe(document.getElementById('top'));
+    }
+    resize();
+    if(reduce){ gl.uniform1f(uTime,12.0);gl.uniform2f(uMouse,0,0);gl.drawArrays(gl.TRIANGLES,0,3);return; }
+    var start=performance.now();
+    (function frame(now){
+      requestAnimationFrame(frame);
+      if(!visible) return;
+      mx+=(tx-mx)*0.045; my+=(ty-my)*0.045;
+      gl.uniform1f(uTime,(now-start)/1000);
+      gl.uniform2f(uMouse,mx,my);
+      gl.drawArrays(gl.TRIANGLES,0,3);
+    })(performance.now());
+  })();
+})();
+</script>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || !('IntersectionObserver' in window)) return;
+  document.body.classList.add('r-ready');
+  var t = document.querySelectorAll('.r');
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.1, rootMargin:'0px 0px -5% 0px'});
+  for(var i=0;i<t.length;i++){ t[i].style.transitionDelay = ((i%4)*0.06)+'s'; io.observe(t[i]); }
+  requestAnimationFrame(function(){
+    var vh = window.innerHeight;
+    for(var k=0;k<t.length;k++){ if(t[k].getBoundingClientRect().top < vh) t[k].classList.add('in'); }
+  });
+})();
+</script>
+
+<script>
+const CLIPS = [
+  { label: "QuickVid", src: "media/QuickVid.mp4" },
+  // add more the same way
+];
+
+(function(){
+  const video = document.getElementById('reel');
+  const bar   = document.getElementById('reel-clips');
+  if (!video || !bar) return;
+
+  if (!CLIPS.length){
+    // nothing listed yet, so show a placeholder instead of an empty player
+    video.removeAttribute('controls');
+    video.insertAdjacentHTML('afterend',
+      '<div class="stage-empty"><b>No clips yet</b>' +
+      '<span>add files to media/ and list them in CLIPS</span></div>');
+    return;
+  }
+
+  let current = 0;
+
+  function play(i, autoplay){
+    const clip = CLIPS[i];
+    current = i;
+    video.src = clip.src;
+    if (clip.poster) video.poster = clip.poster; else video.removeAttribute('poster');
+    [...bar.children].forEach((b, n) => b.setAttribute('aria-current', String(n === i)));
+    if (autoplay) video.play().catch(() => {});   // browser may block it
+  }
+
+  // only build buttons if there is more than one clip
+  if (CLIPS.length > 1){
+    CLIPS.forEach((clip, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = clip.label || ('Clip ' + (i + 1));
+      b.addEventListener('click', () => play(i, true));
+      bar.appendChild(b);
+    });
+  }
+
+  // one clip loops. more than one plays through in order instead.
+  if (CLIPS.length > 1){
+    video.loop = false;
+    video.addEventListener('ended', () => {
+      if (current + 1 < CLIPS.length) play(current + 1, true);
+    });
+  }
+
+  // has to be muted or the browser will not autoplay it
+  //MAKE THE VIDEO BETTER QUALITY SOMEHOW?!?
+  video.muted = true;
+  play(0, true);
+})();
+</script>
+
+
+
+<script>
+/* smooth scrolling only when a link is clicked, so the page never
+   slides around on its own */
+(function(){
+  const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const target = id && document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  });
+})();
+</script>
+</body>
+</html>
