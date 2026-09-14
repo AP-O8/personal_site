@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APO8</title>
+<meta name="description" content="Adrian Philips — student, Sydney. Building iOS apps and websites, heading toward robotics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000;
+  --ink:#F5F5F3;
+  --muted:#8C8C86;
+  --rule:#262624;
+  --cover:#000;
+
+  --display:"Syne","Helvetica Neue",Arial,sans-serif;
+  --text:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+
+  --measure:34rem;
+  --gut:clamp(1.5rem,5vw,3rem);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--text);
+  font-size:1.0625rem;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+
+.cover{
+  position:relative;
+  min-height:100svh;
+  display:grid;
+  align-content:end;
+  padding:var(--gut);
+  background:var(--cover);
+  color:var(--paper);
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.cover-scrim{position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.45)}
+
+.cover-id{position:relative;z-index:2;display:grid;gap:.35rem;color:#FFF}
+.wordmark{
+  font-family:var(--display);font-weight:800;font-size:clamp(3rem,11vw,7.5rem);
+  line-height:.9;letter-spacing:-.01em;text-transform:uppercase;margin:0;
+}
+.whois{margin:0;font-size:1rem;color:rgba(245,245,243,.75)}
+
+.piles{display:grid;gap:clamp(1rem,1.8vw,1.5rem);align-content:space-between;height:100%}
+.stack{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#0A0A0A}
+.stack img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1.4s ease}
+.stack img.on{opacity:1}
+@media (prefers-reduced-motion:reduce){ .stack img{transition:none} }
+
+.page{position:relative;max-width:90rem;margin:0 auto;
+  padding:clamp(3rem,7vw,5rem) var(--gut) 0}
+.col > * + *{margin-top:clamp(3.5rem,8vw,5.5rem)}
+.col section{max-width:var(--measure)}
+.piles{margin-bottom:clamp(3rem,6vw,4rem)}
+
+@media (min-width:1040px){
+  .page{display:grid;grid-template-columns:1fr 1fr;
+    gap:clamp(2.5rem,5vw,5rem);align-items:stretch}
+  .piles{margin-bottom:0}
+}
+
+h2{
+  margin:0 0 1.25rem;font-family:var(--text);font-size:1.0625rem;font-weight:500;
+  letter-spacing:0;padding-bottom:.5rem;border-bottom:1px solid var(--rule);
+}
+p{margin:0 0 1.1rem}
+p:last-child{margin-bottom:0}
+
+
+.facts{margin:0;display:grid;gap:.9rem}
+.facts div{display:grid;gap:.1rem;padding-bottom:.9rem;border-bottom:1px solid var(--rule)}
+.facts div:last-child{border-bottom:0;padding-bottom:0}
+.facts dt{margin:0;font-weight:500}
+.facts dd{margin:0;color:var(--muted);font-size:.9375rem}
+
+.contact a{text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px}
+.contact a:hover{text-decoration-thickness:2px}
+
+.ticker{overflow:hidden;border-bottom:1px solid var(--rule);padding:1rem 0}
+.ticker-track{display:flex;width:max-content;animation:ticker 38s linear infinite}
+.ticker-set{display:flex;align-items:center;white-space:nowrap;
+  font-size:.9375rem;color:var(--muted)}
+.ticker-set i{font-style:normal;padding:0 1.75rem;opacity:.45}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .ticker-track{animation:none}
+  .ticker-set[aria-hidden]{display:none}
+}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+footer{max-width:90rem;margin:clamp(5rem,10vw,8rem) auto 0;
+  padding:0 var(--gut) clamp(3rem,6vw,4rem)}
+footer p{margin:0;padding-top:1.5rem;border-top:1px solid var(--rule);
+  text-align:center;color:var(--muted);font-size:.875rem}
+
+</style>
+</head>
+<body>
+
+<section class="cover" id="top">
+  <video class="cover-bg" src="media/QuickVid.mp4" autoplay muted loop playsinline
+         preload="auto" aria-hidden="true"></video>
+  <div class="cover-scrim" aria-hidden="true"></div>
+
+  <div class="cover-id">
+    <h1 class="wordmark">APO8</h1>
+    <p class="whois">Adrian Philips. Student, Sydney.</p>
+  </div>
+</section>
+
+<div class="ticker">
+  <h2 class="visually-hidden">Tools</h2>
+  <div class="ticker-track">
+    <span class="ticker-set">Xcode<i>·</i>VS Code<i>·</i>Figma<i>·</i>Photoshop<i>·</i>Premiere Pro<i>·</i>Canva<i>·</i></span>
+    <span class="ticker-set" aria-hidden="true">Xcode<i>·</i>VS Code<i>·</i>Figma<i>·</i>Photoshop<i>·</i>Premiere Pro<i>·</i>Canva<i>·</i></span>
+  </div>
+</div>
+
+<main class="page">
+
+  <div class="piles" aria-hidden="true">
+    <div class="stack"><img alt=""><img alt=""></div>
+    <div class="stack"><img alt=""><img alt=""></div>
+  </div>
+
+  <div class="col">
+
+
+  <section id="about">
+    <h2>About</h2>
+    <p>I have always been fascinated by how much can be created from nothing but a computer. We are living in a decade where digital creativity has made it possible to build things that once seemed impossible, from films and software to entire videogame worlds.</p>
+    <p>That fascination has led me to create several projects of my own, exploring what can be built with the tools available to me.</p>
+    <p>Now, I aspire to become a robotics engineer, taking that same ability to create digitally and bringing it into the physical world. Hopefully, I can be part of a future where technology continues to make real progress for everyone.</p>
+  </section>
+
+  <section>
+    <h2>Awards</h2>
+    <dl class="facts">
+      <div>
+        <dt>Swift Student Challenge Winner</dt>
+        <dd>Apple</dd>
+      </div>
+      <div>
+        <dt>Future Innovators Award</dt>
+        <dd>Australian Defence Force</dd>
+      </div>
+    </dl>
+  </section>
+
+
+  <section class="contact" id="contact">
+    <h2>Contact</h2>
+    <p><a href="https://www.linkedin.com/in/adrian-p-462592325/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp; <a href="https://github.com/AP-O8" target="_blank" rel="noopener">GitHub</a></p>
+  </section>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>Personal website, catalysed by Stardance Challenge.</p>
+</footer>
+
+
+<script>
+(function(){
+  const track = document.querySelector('.ticker-track');
+  if (!track) return;
+  const first = track.querySelector('.ticker-set');
+  if (!first) return;
+  const unit = first.cloneNode(true);
+
+  function build(){
+    track.replaceChildren(first);
+    first.replaceChildren(...unit.cloneNode(true).childNodes);
+    let guard = 0;
+    while (first.getBoundingClientRect().width < window.innerWidth && guard++ < 40){
+      first.append(...unit.cloneNode(true).childNodes);
+    }
+    const copy = first.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    track.append(copy);
+  }
+
+  build();
+  let t;
+  addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(build, 200); });
+})();
+</script>
+<script>
+
+(function(){
+  const piles = [...document.querySelectorAll('.piles .stack')];
+  if (!piles.length) return;
+
+  const POOL = Array.from({length:10}, (_, i) => 'media/side/' + String(i+1).padStart(2,'0') + '.jpg');
+  POOL.forEach(src => { const p = new Image(); p.src = src; });   // warm the cache
+
+  const bag = POOL.slice();
+  for (let i = bag.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [bag[i], bag[j]] = [bag[j], bag[i]];
+  }
+  const showing = bag.slice(0, piles.length);
+  const spare   = bag.slice(piles.length);
+
+  piles.forEach((pile, i) => {
+    const layers = pile.querySelectorAll('img');
+    pile.dataset.front = '0';
+    layers[0].src = showing[i];
+    layers[0].classList.add('on');
+  });
+
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !spare.length) return;
+
+  const FADE = 1400;                            // matches the css transition
+
+  let turn = 0;
+
+  function swapOne(){
+    if (document.hidden || !spare.length) return;
+    const i = turn % piles.length;
+    turn++;
+    const j = Math.floor(Math.random() * spare.length);
+    const pile = piles[i];
+    const layers = pile.querySelectorAll('img');
+    const front = Number(pile.dataset.front);
+    const back = layers[1 - front];
+
+    const incoming = spare.splice(j, 1)[0];
+    const outgoing = showing[i];
+    showing[i] = incoming;
+    setTimeout(() => spare.push(outgoing), FADE + 200);
+
+    back.src = incoming;
+    const reveal = () => {
+      back.classList.add('on');
+      layers[front].classList.remove('on');
+      pile.dataset.front = String(1 - front);
+    };
+    if (back.complete) reveal();
+    else back.addEventListener('load', reveal, { once:true });
+  }
+
+  setInterval(swapOne, 3600);
+})();
+</script>
+</body>
+</html>
