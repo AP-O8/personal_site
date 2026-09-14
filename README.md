@@ -2,6 +2,8 @@
 
 Hi there! This is the repository for my personal website and creative space.
 
+🔗 **Live Site:** [ap-o8.github.io/personal_site](https://ap-o8.github.io/personal_site/)
+
 <img width="1454" height="1032" alt="Screenshot 2026-09-14 at 4 14 03 PM" src="https://github.com/user-attachments/assets/982f3b0f-8d0f-4591-9a2a-88f0776c7d2f" />
 <img width="1461" height="1043" alt="Screenshot 2026-09-14 at 4 14 21 PM" src="https://github.com/user-attachments/assets/981abaf2-0532-47c3-9be0-f9dcbfe0c105" />
 
