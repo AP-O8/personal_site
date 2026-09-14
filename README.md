@@ -22,7 +22,7 @@ The site opens with a dark theme hero banner with a hero video of my past projec
 ---
 
 ## Credits
-- **Formatting & Debugging:**Thanks to Claude for helping debug tricky issues in my code and keeping my formatting clean for how current industries organise code! Not used for creating code.
+- **Formatting & Debugging:** Thanks to Claude for helping debug tricky issues in my code and keeping my formatting clean for how current industries organise code! Not used for creating code.
 ---
 
 CATALYSED BY STARDANCE CHALLENGE ⭐❤️
